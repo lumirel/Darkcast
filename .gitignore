@@ -1,0 +1,15 @@
+.idea/
+.vs/
+
+bin/
+obj/
+
+Builds/
+Library/
+Logs/
+Temp/
+UserSettings/
+
+desktop.ini
+
+*.log
