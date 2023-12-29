@@ -1,11 +1,19 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Darkcast", "Darkcast.csproj", "{ae721eea-8a8f-84e5-fee6-50ea08d9809e}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Darkcast.Tests", "Darkcast.Tests.csproj", "{aa653b86-2490-82f6-69b7-54fdcf420067}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{ae721eea-8a8f-84e5-fee6-50ea08d9809e}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ae721eea-8a8f-84e5-fee6-50ea08d9809e}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{aa653b86-2490-82f6-69b7-54fdcf420067}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{aa653b86-2490-82f6-69b7-54fdcf420067}.Debug|Any CPU.Build.0 = Debug|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
