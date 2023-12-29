@@ -47,7 +47,7 @@
   <ItemGroup>
     <Compile Include="Assets\Scripts\Item.cs" />
     <Compile Include="Assets\Scripts\Inventory.cs" />
-    <Compile Include="Assets\Scripts\Stack.cs" />
+    <Compile Include="Assets\Scripts\ItemStack.cs" />
     <None Include="Assets\Scripts\Darkcast.asmdef" />
     <Reference Include="UnityEngine">
       <HintPath>C:\Program Files\Unity\Hub\Editor\2022.3.16f1\Editor\Data\Managed\UnityEngine\UnityEngine.dll</HintPath>

@@ -4,7 +4,7 @@ namespace Darkcast
 {
     public sealed class Inventory
     {
-        private readonly Stack[] _stacks;
+        private readonly ItemStack[] _stacks;
 
         public Inventory(int size)
         {
@@ -13,19 +13,14 @@ namespace Darkcast
                 throw new ArgumentOutOfRangeException(nameof(size));
             }
 
-            _stacks = new Stack[size];
-
-            for (var i = 0; i < size; i++)
-            {
-                _stacks[i] = new Stack();
-            }
+            _stacks = new ItemStack[size];
         }
 
-        public void Insert(Stack other)
+        public void Insert(ref ItemStack other)
         {
             foreach (var stack in _stacks)
             {
-                stack.Combine(other);
+                stack.Combine(ref other);
 
                 if (stack.isEmpty)
                 {
@@ -34,7 +29,7 @@ namespace Darkcast
             }
         }
 
-        public bool Contains(Stack other)
+        public bool Contains(ItemStack other)
         {
             throw new NotImplementedException();
         }

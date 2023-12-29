@@ -5,42 +5,27 @@ namespace Darkcast
     /// <summary>
     /// Represents a stack of items.
     /// </summary>
-    public sealed class Stack
+    public struct ItemStack
     {
-        /// <summary>
-        /// Creates an empty stack.
-        /// </summary>
-        public Stack()
-        {
-        }
-
         /// <summary>
         /// Creates a new stack of items.
         /// </summary>
         /// <param name="item">The item the stack holds.</param>
         /// <param name="count">The number of items the stack holds.</param>
-        public Stack(Item item, int count = 1)
+        public ItemStack(Item item, int count = 1)
         {
             if (!item)
             {
                 throw new ArgumentNullException(nameof(item));
             }
-            
-            if (count < 0)
+
+            if (count < 0 || count > item.stackSize)
             {
                 throw new ArgumentOutOfRangeException(nameof(count));
             }
 
             this.item = item;
-            
-            if (count > item.stackSize)
-            {
-                this.count = item.stackSize;
-            }
-            else
-            {
-                this.count = count;
-            }
+            this.count = count;
         }
 
         /// <summary>
@@ -59,12 +44,11 @@ namespace Darkcast
         public bool isEmpty => count == 0;
 
         /// <summary>
-        /// Attempts to combine the other stack into this stack.
+        /// Combine this stack with another stack.
         /// </summary>
         /// <param name="other">The other stack to combine.</param>
-        public void Combine(Stack other)
+        public void Combine(ref ItemStack other)
         {
-            // Different items can't be combined. Maybe swap later?
             if (item != other.item)
             {
                 (item, other.item) = (other.item, item);
@@ -72,22 +56,52 @@ namespace Darkcast
                 return;
             }
 
-            var totalCount = count + other.count;
+            var combinedCount = count + other.count;
 
-            if (totalCount > item.stackSize)
+            if (combinedCount > item.stackSize)
             {
                 // Partially combined the two stacks.
                 count = item.stackSize;
-                other.count = totalCount - item.stackSize;
+
+                other.count = combinedCount - item.stackSize;
             }
             else
             {
                 // Completely combined the two stacks.
-                count = totalCount;
+                count = combinedCount;
 
                 other.item = null;
                 other.count = 0;
             }
+        }
+
+        /// <summary>
+        /// Split with stack into another stack.
+        /// </summary>
+        /// <param name="amount">The number of items in the new stack.</param>
+        /// <returns>A new stack containing the number of requested items or an empty stack is not possible.</returns>
+        public ItemStack Split(int amount)
+        {
+            if (isEmpty)
+            {
+                return new ItemStack();
+            }
+
+            var newStackCount = count - amount;
+
+            if (newStackCount <= 0)
+            {
+                var newStack = new ItemStack(item, count);
+
+                item = null;
+                count = 0;
+
+                return newStack;
+            }
+
+            count = newStackCount;
+
+            return new ItemStack(item, amount);
         }
     }
 }

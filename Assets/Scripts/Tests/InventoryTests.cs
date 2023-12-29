@@ -11,11 +11,11 @@ namespace Darkcast.Tests
         public void Inventory_contains_inserted_stack()
         {
             var inventory = new Inventory(1);
-        
-            var stack = new Stack(_dummyItem, 4);
-            inventory.Insert(stack);
-            
-            Assert.True(inventory.Contains(stack));
+
+            var itemStack = new ItemStack(_dummyItem, 4);
+            inventory.Insert(ref itemStack);
+
+            Assert.True(inventory.Contains(itemStack));
         }
     }
 }
