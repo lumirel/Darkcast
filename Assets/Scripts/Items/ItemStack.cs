@@ -5,6 +5,7 @@ namespace Darkcast.Items
     /// <summary>
     /// Represents a stack of items.
     /// </summary>
+    [Serializable]
     public struct ItemStack
     {
         /// <summary>
@@ -49,6 +50,11 @@ namespace Darkcast.Items
         /// <param name="other">The other stack to combine.</param>
         public void Combine(ref ItemStack other)
         {
+            if (isEmpty && other.isEmpty)
+            {
+                return;
+            }
+
             if (item != other.item)
             {
                 (item, other.item) = (other.item, item);

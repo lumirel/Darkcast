@@ -106,6 +106,22 @@ namespace Darkcast.Tests.Items
         }
 
         [Test]
+        public void Combining_empty_stacks_changes_nothing()
+        {
+            var itemStack = new ItemStack();
+
+            var otherItemStack = new ItemStack();
+
+            itemStack.Combine(ref otherItemStack);
+
+            Assert.IsNull(itemStack.item);
+            Assert.AreEqual(0, itemStack.count);
+
+            Assert.IsNull(otherItemStack.item);
+            Assert.AreEqual(0, otherItemStack.count);
+        }
+        
+        [Test]
         public void Partially_combines_one_stack_into_another_stack()
         {
             const int itemStackCount = 24;

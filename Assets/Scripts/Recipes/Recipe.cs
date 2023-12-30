@@ -1,11 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 namespace Darkcast.Recipes
 {
-    [Serializable]
-    public struct Recipe
+    [CreateAssetMenu(menuName = "Darkcast/Recipes/Recipe", fileName = "New Recipe", order = 1)]
+    public sealed class Recipe : ScriptableObject
     {
         [SerializeField] private int _energy;
 
