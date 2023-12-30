@@ -2,7 +2,7 @@
 
 namespace Darkcast.Items
 {
-    [CreateAssetMenu(menuName = "Darkcast/Fuel", fileName = "New Fuel", order = 1)]
+    [CreateAssetMenu(menuName = "Darkcast/Items/Fuel", fileName = "New Fuel", order = 1)]
     public class Fuel : Item
     {
         [SerializeField] private int _burnTime;

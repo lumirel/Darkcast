@@ -9,8 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d4928d91af614596942f16febfaea24f, type: 3}
-  m_Name: Coal Coke
+  m_Script: {fileID: 11500000, guid: fdb5dc242cd784248a582058de474ff5, type: 3}
+  m_Name: Sand
   m_EditorClassIdentifier: 
-  _stackSize: 64
-  _totalEnergy: 40000
+  _stackSize: 8

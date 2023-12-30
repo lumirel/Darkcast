@@ -10,6 +10,6 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fdb5dc242cd784248a582058de474ff5, type: 3}
-  m_Name: Iron Ore
+  m_Name: Gravel
   m_EditorClassIdentifier: 
-  _stackSize: 16
+  _stackSize: 8
