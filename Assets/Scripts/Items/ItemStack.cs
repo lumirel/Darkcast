@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Darkcast
+namespace Darkcast.Items
 {
     /// <summary>
     /// Represents a stack of items.
@@ -44,7 +44,7 @@ namespace Darkcast
         public bool isEmpty => count == 0;
 
         /// <summary>
-        /// Combine this stack with another stack.
+        /// Combines this stack with another stack.
         /// </summary>
         /// <param name="other">The other stack to combine.</param>
         public void Combine(ref ItemStack other)
@@ -56,19 +56,19 @@ namespace Darkcast
                 return;
             }
 
-            var combinedCount = count + other.count;
+            var newCount = count + other.count;
 
-            if (combinedCount > item.stackSize)
+            if (newCount > item.stackSize)
             {
                 // Partially combined the two stacks.
                 count = item.stackSize;
 
-                other.count = combinedCount - item.stackSize;
+                other.count = newCount - item.stackSize;
             }
             else
             {
                 // Completely combined the two stacks.
-                count = combinedCount;
+                count = newCount;
 
                 other.item = null;
                 other.count = 0;
@@ -76,7 +76,7 @@ namespace Darkcast
         }
 
         /// <summary>
-        /// Split with stack into another stack.
+        /// Splits this stack into another stack.
         /// </summary>
         /// <param name="amount">The number of items in the new stack.</param>
         /// <returns>A new stack containing the number of requested items or an empty stack is not possible.</returns>
@@ -87,9 +87,9 @@ namespace Darkcast
                 return new ItemStack();
             }
 
-            var newStackCount = count - amount;
+            var newCount = count - amount;
 
-            if (newStackCount <= 0)
+            if (newCount < 1)
             {
                 var newStack = new ItemStack(item, count);
 
@@ -99,7 +99,7 @@ namespace Darkcast
                 return newStack;
             }
 
-            count = newStackCount;
+            count = newCount;
 
             return new ItemStack(item, amount);
         }

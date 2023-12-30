@@ -1,8 +1,9 @@
 using System;
-using UnityEngine;
 using NUnit.Framework;
+using UnityEngine;
+using Darkcast.Items;
 
-namespace Darkcast.Tests
+namespace Darkcast.Tests.Items
 {
     public sealed class ItemStackTests : ScriptableObject
     {
