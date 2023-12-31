@@ -109,5 +109,19 @@ namespace Darkcast.Items
 
             return new ItemStack(item, amount);
         }
+
+        /// <summary>
+        /// Gets a string representation of the item stack.
+        /// </summary>
+        /// <returns>A string representation of the item stack.</returns>
+        public override string ToString()
+        {
+            if (item)
+            {
+                return $"({item.name}, {count})";
+            }
+            
+            return "(Empty)";
+        }
     }
 }

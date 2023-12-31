@@ -16,7 +16,7 @@ namespace Darkcast.Components
             foreach (var input in selectedRecipe.input)
             {
                 var inputItems = new ItemStack(input.item, input.count);
-                _pulverizer.inputInventory.Store(ref inputItems);
+                _pulverizer.input.Store(ref inputItems);
             }
         }
 

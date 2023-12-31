@@ -49,8 +49,8 @@
     <Compile Include="Assets\Scripts\Recipes\Recipe.cs" />
     <Compile Include="Assets\Scripts\Items\Item.cs" />
     <Compile Include="Assets\Scripts\Components\GameManager.cs" />
-    <Compile Include="Assets\Scripts\Machines\Pulverizer.cs" />
     <Compile Include="Assets\Scripts\Items\Inventory.cs" />
+    <Compile Include="Assets\Scripts\Machines\Pulverizer.cs" />
     <Compile Include="Assets\Scripts\Items\Fuel.cs" />
     <Compile Include="Assets\Scripts\Items\ItemStack.cs" />
     <Compile Include="Assets\Scripts\Recipes\Ingredient.cs" />

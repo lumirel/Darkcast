@@ -1,5 +1,5 @@
-﻿using Darkcast.Items;
-using UnityEngine;
+﻿using UnityEngine;
+using Darkcast.Items;
 using Darkcast.Recipes;
 
 namespace Darkcast.Machines
@@ -15,7 +15,7 @@ namespace Darkcast.Machines
 
         public Cookbook cookbook => _cookbook;
 
-        public Inventory inputInventory { get; } = new();
+        public Inventory input { get; } = new(10);
 
         public void SelectRecipe(Recipe recipe)
         {
@@ -34,10 +34,17 @@ namespace Darkcast.Machines
                 }
 
                 // Check if the selected recipe can be worked on.
-                if (inputInventory.Contains(_selectedRecipe.input))
+                var ingredient = _selectedRecipe.input[0];
+
+                var itemStack = new ItemStack(ingredient.item, ingredient.count);
+
+                if (input.Contains(itemStack))
                 {
                     // Our input inventory has everything we need to keep working on this recipe.
-                    _currentRecipe = _selectedRecipe;    
+                    _currentRecipe = _selectedRecipe;
+                    _energyNeededToCompleteCurrentRecipe = _currentRecipe.energy;
+                    
+                    // TODO Remove the items from the inventory.
                 }
                 else
                 {
