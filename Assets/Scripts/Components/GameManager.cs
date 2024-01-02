@@ -14,7 +14,7 @@ namespace Darkcast.Components
 
             foreach (var input in selectedRecipe.ingredients)
             {
-                _pulverizer.input.Store(input.item, input.count);
+                _pulverizer.input.Store(input.item, input.count * 3);
             }
         }
 

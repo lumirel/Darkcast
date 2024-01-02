@@ -15,9 +15,9 @@ namespace Darkcast.Machines
 
         public Cookbook cookbook => _cookbook;
 
-        public Inventory input = new(10);
+        public Inventory input = new();
 
-        public Inventory output = new(10);
+        public Inventory output = new();
         
         public void SelectRecipe(Recipe recipe)
         {
@@ -60,12 +60,12 @@ namespace Darkcast.Machines
 
             // Work on the current recipe.
             _energyNeededToCompleteCurrentRecipe -= 20;
-            
+
             // Check if the current recipe was completed.
             if (_energyNeededToCompleteCurrentRecipe == 0)
             {
                 // Store all the resulting items in the output inventory.
-                foreach (var result in _currentRecipe.output)
+                foreach (var result in _currentRecipe.results)
                 {
                     output.Store(result.item, result.count);
                 }

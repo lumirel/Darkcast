@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: Pulverizer Gravel
   m_EditorClassIdentifier: 
   _energy: 4000
-  _input:
+  _ingredients:
   - _item: {fileID: 11400000, guid: 55165727eb6a70b4a940b7e1da13e79d, type: 2}
     _count: 1
-  _output:
+  _results:
   - _item: {fileID: 11400000, guid: 48a1d274e219af54ba99cfbb62011299, type: 2}
     _count: 1

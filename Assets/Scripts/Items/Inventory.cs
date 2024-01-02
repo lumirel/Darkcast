@@ -26,30 +26,12 @@ namespace Darkcast.Items
         private List<Slot> _slots;
 
         /// <summary>
-        /// Creates an inventory that can store the given number of items.
+        /// Creates an inventory that can store an unlimited number of items.
         /// </summary>
-        /// <param name="capacity">The maximum number of items the inventory can contain.</param>
-        public Inventory(int capacity)
+        public Inventory()
         {
-            if (capacity < 1)
-            {
-                throw new ArgumentOutOfRangeException(nameof(capacity));
-            }
-
             _slots = new List<Slot>();
-
-            this.capacity = capacity;
         }
-
-        /// <summary>
-        /// The maximum number of items the inventory can contain.
-        /// </summary>
-        public int capacity { get; }
-
-        /// <summary>
-        /// The current number of items the inventory contains.
-        /// </summary>
-        public int count { get; private set; }
 
         /// <summary>
         /// Stores a certain number of items in the inventory.
@@ -68,11 +50,6 @@ namespace Darkcast.Items
                 throw new ArgumentOutOfRangeException(nameof(amount));
             }
 
-            if (count + amount > capacity)
-            {
-                return;
-            }
-
             for (var i = 0; i < _slots.Count; i++)
             {
                 var existingSlot = _slots[i];
@@ -82,13 +59,11 @@ namespace Darkcast.Items
                 }
 
                 _slots[i] = new Slot(item, existingSlot.count + amount);
-                count += amount;
                 return;
             }
 
             var newSlot = new Slot(item, amount);
             _slots.Add(newSlot);
-            count += amount;
         }
 
         /// <summary>
@@ -129,7 +104,6 @@ namespace Darkcast.Items
                 if (existingSlot.count > amount)
                 {
                     _slots[i] = new Slot(item, existingSlot.count - amount);
-                    count -= amount;
                     return;
 
                 }
@@ -137,7 +111,6 @@ namespace Darkcast.Items
                 if (existingSlot.count == amount)
                 {
                     _slots.RemoveAt(i);
-                    count -= amount;
                     return;
                 }
 

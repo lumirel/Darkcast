@@ -9,14 +9,14 @@ namespace Darkcast.Recipes
     {
         [SerializeField] private int _energy;
 
-        [FormerlySerializedAs("_input")] [SerializeField] private List<Ingredient> _ingredients;
+        [SerializeField] private List<Ingredient> _ingredients;
 
-        [SerializeField] private List<Ingredient> _output;
+        [SerializeField] private List<Ingredient> _results;
 
         public int energy => _energy;
         
         public List<Ingredient> ingredients => _ingredients;
 
-        public List<Ingredient> output => _output;
+        public List<Ingredient> results => _results;
     }
 }
