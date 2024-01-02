@@ -11,7 +11,7 @@ namespace Darkcast.Machines
         private Recipe _activeRecipe;
         private Recipe _selectedRecipe;
 
-        public int _energyNeededToCompleteCurrentRecipe;
+        public int _energyRemainingUntilActiveRecipeCompletion;
 
         public Cookbook cookbook => _cookbook;
 
@@ -53,7 +53,7 @@ namespace Darkcast.Machines
 
             // Our input inventory has everything we need to keep working on this recipe.
             _activeRecipe = _selectedRecipe;
-            _energyNeededToCompleteCurrentRecipe = _activeRecipe.energy;
+            _energyRemainingUntilActiveRecipeCompletion = _activeRecipe.energy;
 
             return true;
         }
@@ -61,10 +61,10 @@ namespace Darkcast.Machines
         private void WorkActiveRecipe()
         {
             // Work on the active recipe.
-            _energyNeededToCompleteCurrentRecipe -= 20;
+            _energyRemainingUntilActiveRecipeCompletion -= 20;
 
             // Check if the active recipe was completed.
-            if (_energyNeededToCompleteCurrentRecipe > 0)
+            if (_energyRemainingUntilActiveRecipeCompletion > 0)
             {
                 // Active recipe was not completed.
                 return;
