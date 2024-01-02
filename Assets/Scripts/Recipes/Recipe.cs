@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Darkcast.Recipes
 {
@@ -8,13 +9,13 @@ namespace Darkcast.Recipes
     {
         [SerializeField] private int _energy;
 
-        [SerializeField] private List<Ingredient> _input;
+        [FormerlySerializedAs("_input")] [SerializeField] private List<Ingredient> _ingredients;
 
         [SerializeField] private List<Ingredient> _output;
 
         public int energy => _energy;
         
-        public List<Ingredient> input => _input;
+        public List<Ingredient> ingredients => _ingredients;
 
         public List<Ingredient> output => _output;
     }

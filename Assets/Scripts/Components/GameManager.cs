@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using Darkcast.Items;
 using Darkcast.Machines;
 
 namespace Darkcast.Components
@@ -13,10 +12,9 @@ namespace Darkcast.Components
             var selectedRecipe = _pulverizer.cookbook.recipes[0];
             _pulverizer.SelectRecipe(selectedRecipe);
 
-            foreach (var input in selectedRecipe.input)
+            foreach (var input in selectedRecipe.ingredients)
             {
-                var inputItems = new ItemStack(input.item, input.count);
-                _pulverizer.input.Store(ref inputItems);
+                _pulverizer.input.Store(input.item, input.count);
             }
         }
 

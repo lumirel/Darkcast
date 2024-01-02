@@ -15,8 +15,10 @@ namespace Darkcast.Machines
 
         public Cookbook cookbook => _cookbook;
 
-        public Inventory input { get; } = new(10);
+        public Inventory input = new(10);
 
+        public Inventory output = new(10);
+        
         public void SelectRecipe(Recipe recipe)
         {
             _selectedRecipe = recipe;
@@ -33,24 +35,27 @@ namespace Darkcast.Machines
                     return;
                 }
 
-                // Check if the selected recipe can be worked on.
-                var ingredient = _selectedRecipe.input[0];
-
-                var itemStack = new ItemStack(ingredient.item, ingredient.count);
-
-                if (input.Contains(itemStack))
+                // Check if the inventory contains all the ingredients for the selected recipe.
+                // ReSharper disable once ForeachCanBeConvertedToQueryUsingAnotherGetEnumerator
+                foreach (var ingredient in _selectedRecipe.ingredients)
                 {
-                    // Our input inventory has everything we need to keep working on this recipe.
-                    _currentRecipe = _selectedRecipe;
-                    _energyNeededToCompleteCurrentRecipe = _currentRecipe.energy;
-                    
-                    // TODO Remove the items from the inventory.
+                    if (!input.Contains(ingredient.item, ingredient.count))
+                    {
+                        // Our input inventory doesn't have everything we need to keep working. We're done.
+                        return;
+                    }
                 }
-                else
+
+                // Remove all the ingredients from from the inventory for the selected recipe.
+                foreach (var ingredient in _selectedRecipe.ingredients)
                 {
-                    // Our input inventory doesn't have everything we need to keep working. We're done.
-                    return;
+                    // Remove the items from the inventory.
+                    input.Remove(ingredient.item, ingredient.count);
                 }
+
+                // Our input inventory has everything we need to keep working on this recipe.
+                _currentRecipe = _selectedRecipe;
+                _energyNeededToCompleteCurrentRecipe = _currentRecipe.energy;
             }
 
             // Work on the current recipe.
@@ -59,6 +64,12 @@ namespace Darkcast.Machines
             // Check if the current recipe was completed.
             if (_energyNeededToCompleteCurrentRecipe == 0)
             {
+                // Store all the resulting items in the output inventory.
+                foreach (var result in _currentRecipe.output)
+                {
+                    output.Store(result.item, result.count);
+                }
+
                 // Mark the current recipe as completed and reset it for the next tick.
                 _currentRecipe = null;
             }

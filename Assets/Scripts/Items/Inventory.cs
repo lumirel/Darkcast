@@ -1,93 +1,108 @@
-﻿namespace Darkcast.Items
+﻿using System;
+using System.Collections.Generic;
+
+namespace Darkcast.Items
 {
     /// <summary>
-    /// Represents an item inventory.
+    /// Represents an inventory of items.
     /// </summary>
+    [Serializable]
     public sealed class Inventory
     {
-        private readonly ItemStack[] _itemStacks;
+        [Serializable]
+        private struct Slot
+        {
+            public Item item;
+
+            public int count;
+
+            public Slot(Item item, int count)
+            {
+                this.item = item;
+                this.count = count;
+            }
+        }
+
+        private List<Slot> _slots;
 
         /// <summary>
-        /// Creates an inventory with the given number of item stacks.
+        /// Creates an inventory that can store the given number of items.
         /// </summary>
-        /// <param name="size">The number of item stacks the inventory contains.</param>
-        public Inventory(int size)
+        /// <param name="capacity">The maximum number of items the inventory can contain.</param>
+        public Inventory(int capacity)
         {
-            _itemStacks = new ItemStack[size];
+            if (capacity < 1)
+            {
+                throw new ArgumentOutOfRangeException(nameof(capacity));
+            }
 
-            this.size = size;
+            _slots = new List<Slot>();
+
+            this.capacity = capacity;
         }
 
         /// <summary>
-        /// The number of item stacks the inventory contains.
+        /// The maximum number of items the inventory can contain.
         /// </summary>
-        public int size { get; }
+        public int capacity { get; }
 
         /// <summary>
-        /// Stores an item stack in the inventory.
+        /// The current number of items the inventory contains.
         /// </summary>
-        /// <param name="itemStack">The item stack to store.</param>
-        public void Store(ref ItemStack itemStack)
+        public int count { get; private set; }
+
+        /// <summary>
+        /// Stores a certain number of items in the inventory.
+        /// </summary>
+        /// <param name="item">The item to store.</param>
+        /// <param name="amount">The number of items to store.</param>
+        public void Store(Item item, int amount = 1)
         {
-            // Keep track of the index of the first empty item stack found.
-            var firstEmptyItemStackIndex = -1;
-            
-            // Attempt to combine this item stack with any existing items stacks.
-            for (var index = 0; index < _itemStacks.Length; index++)
+            if (item is null)
             {
-                ref var existingItemStack = ref _itemStacks[index];
-
-                if (existingItemStack.isEmpty)
-                {
-                    firstEmptyItemStackIndex = index;
-                }
-
-                if (existingItemStack.item != itemStack.item)
-                {
-                    continue;
-                }
-
-                existingItemStack.Combine(ref itemStack);
-
-                // Check if the item stack has been completely emptied.
-                if (itemStack.isEmpty)
-                {
-                    // The entire item stack has been stored.
-                    return;
-                }
+                throw new ArgumentNullException(nameof(item));
             }
 
-            // Where any empty item stack found?
-            if (firstEmptyItemStackIndex == -1)
+            if (amount < 1)
             {
-                // No empty item stacks found.
+                throw new ArgumentOutOfRangeException(nameof(amount));
+            }
+
+            if (count + amount > capacity)
+            {
                 return;
             }
 
-            // Combine this item stack with the first empty item stack found.
-            ref var firstEmptyItemStack = ref _itemStacks[firstEmptyItemStackIndex];
-            firstEmptyItemStack.Combine(ref itemStack);
-        }
-
-        /// <summary>
-        /// Checks if the inventory contains an item stack.
-        /// </summary>
-        /// <param name="itemStack">The item stack to check.</param>
-        /// <returns>True if the inventory contains the equivalent item stack even if spread out among multiple stacks.</returns>
-        public bool Contains(ItemStack itemStack)
-        {
-            var totalCount = 0;
-            
-            foreach (var existingItemStack in _itemStacks)
+            for (var i = 0; i < _slots.Count; i++)
             {
-                if (existingItemStack.item != itemStack.item)
+                var existingSlot = _slots[i];
+                if (existingSlot.item != item)
                 {
                     continue;
                 }
 
-                totalCount += existingItemStack.count;
+                _slots[i] = new Slot(item, existingSlot.count + amount);
+                count += amount;
+                return;
+            }
 
-                if (totalCount >= itemStack.count)
+            var newSlot = new Slot(item, amount);
+            _slots.Add(newSlot);
+            count += amount;
+        }
+
+        /// <summary>
+        /// Checks if the inventory contains a certain number of items.
+        /// </summary>
+        /// <param name="item">The item to check.</param>
+        /// <param name="amount">The number of items to check.</param>
+        /// <returns>True if the inventory contains the number of items requested, false otherwise.</returns>
+        public bool Contains(Item item, int amount = 1)
+        {
+            // ReSharper disable once ForeachCanBeConvertedToQueryUsingAnotherGetEnumerator
+            foreach (var existingSlot in _slots)
+            {
+                if (existingSlot.item == item && existingSlot.count >= amount)
                 {
                     return true;
                 }
@@ -97,12 +112,37 @@
         }
 
         /// <summary>
-        /// Removes an item stack from the inventory.
+        /// Removes a certain number of items from the inventory.
         /// </summary>
-        /// <param name="itemStack">The item stack to remove.</param>
-        public void Remove(ref ItemStack itemStack)
+        /// <param name="item">The item to remove.</param>
+        /// <param name="amount">The number of items to remove.</param>
+        public void Remove(Item item, int amount = 1)
         {
-            
+            for (var i = 0; i < _slots.Count; i++)
+            {
+                var existingSlot = _slots[i];
+                if (existingSlot.item != item)
+                {
+                    continue;
+                }
+
+                if (existingSlot.count > amount)
+                {
+                    _slots[i] = new Slot(item, existingSlot.count - amount);
+                    count -= amount;
+                    return;
+
+                }
+
+                if (existingSlot.count == amount)
+                {
+                    _slots.RemoveAt(i);
+                    count -= amount;
+                    return;
+                }
+
+                return;
+            }
         }
     }
 }
